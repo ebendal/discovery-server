@@ -1,0 +1,31 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: openjdk:8
+    steps:
+      - checkout
+      - run: ./gradlew build
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - build
+  deploy:
+    docker:
+      - image: governmentpaas/cf-cli
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - run: cf login -a $PWS_API_URL -u $PWS_USERNAME -p $PWS_PASSWORD -o $PWS_ORG -s $PWS_SPACE > /dev/null 2>&1
+      - run: cf push -d $DOMAIN --hostname $HOSTNAME > /dev/null 2>&1
+      - run: cf stop discovery-server > /dev/null 2>&1
+
+workflows:
+  version: 2.1
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

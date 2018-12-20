@@ -1,0 +1,11 @@
+# Stand-alone mode
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+---
+spring:
+  profiles: local
+server:
+  port: 8761 # Port convention for Spring Eureka Server
+

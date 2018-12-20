@@ -1,0 +1,7 @@
+applications:
+- name: discovery-server
+  path: build/libs/discovery-server.jar
+  buildpack: java_buildpack
+  memory: 1G
+  services:
+  - config
