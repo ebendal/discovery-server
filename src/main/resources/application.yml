@@ -5,7 +5,20 @@ eureka:
     fetch-registry: false
 ---
 spring:
+  profiles: cloud
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${vcap.application.uris[0]}/eureka/
+---
+spring:
   profiles: local
 server:
   port: 8761 # Port convention for Spring Eureka Server
-
+---
+spring:
+  profiles: test
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/

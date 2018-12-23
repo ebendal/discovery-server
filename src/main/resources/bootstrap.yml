@@ -7,5 +7,5 @@ spring:
   cloud:
     config:
       uri: ${vcap.services.config.credentials.uri}
-      fail-fast: true
+      # TODO enable fail-fast: true
 
